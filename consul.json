@@ -1,0 +1,18 @@
+{
+    "data_dir": "/data",
+    "ui_dir": "/ui",
+    "client_addr": "0.0.0.0",
+    "ports": {
+            "//": "if enabled, also need 'recursor' config to point to your dns",
+            "dns": -1
+    },
+    "disable_update_check": true,
+    "watches": [
+        {
+            "type": "event",
+            "name": "trigger-reload",
+            "handler": "/bin/reload-consul.sh"
+        }
+    ]
+}
+
