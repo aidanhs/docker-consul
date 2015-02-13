@@ -8,7 +8,7 @@ NEWCOMMIT="$(curl http://localhost:8500/v1/kv/consul/commitish?raw)"
 
 echo "Considering '$CURCOMMIT', '$NEWCOMMIT'"
 
-if [ "$NEWCOMMIT" = "" ]; then
+if [ "$NEWCOMMIT" = "" -o "$NEWCOMMIT" = "No cluster leader" ]; then
     # Commit hash hasn't been put into kv store yet
     exit 0
 if [ "${#CURCOMMIT}" != "${#NEWCOMMIT}" ]; then
