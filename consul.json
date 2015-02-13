@@ -11,7 +11,7 @@
         {
             "type": "event",
             "name": "trigger-reload",
-            "handler": "/bin/reload-consul.sh"
+            "handler": "/config/reload-consul.sh"
         }
     ]
 }
