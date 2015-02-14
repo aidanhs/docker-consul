@@ -14,9 +14,11 @@ RUN curl -L https://get.docker.io/builds/Linux/x86_64/docker-1.2.0 > /bin/docker
 
 ADD . /config/
 
-ADD ./start /bin/start
-ADD ./check-http /bin/check-http
-ADD ./check-cmd /bin/check-cmd
+WORKDIR /config
+
+RUN ln -s $(pwd)/start /bin/start && \
+    ln -s $(pwd)/check-http /bin/check-http && \
+    ln -s $(pwd)/check-cmd /bin/check-cmd
 
 EXPOSE 8300 8301 8301/udp 8302 8302/udp 8400 8500 53/udp
 VOLUME ["/data"]
