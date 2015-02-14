@@ -32,7 +32,6 @@ eval docker run --name consul -h \$HOSTNAME \
 	-p $external_ip:8400:8400 \
 	-p $external_ip:8500:8500 \
 	-p $bridge_ip:53:53/udp \
-        -v /var/run/docker.sock:/var/run/docker.sock \
 	$args \
 	$IMAGE $server_flag -advertise $external_ip $run_mode
 EOF
@@ -40,13 +39,9 @@ EOF
 
 main() {
 	set -eo pipefail
-        /config/prep-consul.sh
-        echo "" > /etc/default/consul
-        echo "CMD=/bin/consul" >> /etc/default/consul
-        echo "ARGS='agent -config-dir=/config $@'" >> /etc/default/consul
 	case "$1" in
 	cmd:run)            shift; cmd-run $@;;
-	*)                  exec /sbin/init --verbose;;
+	*)                  exec /bin/consul agent -config-dir=/config $@;;
 	esac
 }
 
