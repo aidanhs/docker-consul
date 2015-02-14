@@ -12,6 +12,11 @@
             "type": "event",
             "name": "trigger-reload",
             "handler": "/config/reload-consul.sh"
+        },
+        {
+            "type": "key",
+            "key": "HOSTNAME/shutdown",
+            "handler": "/config/shutdown-consul.sh"
         }
     ]
 }
