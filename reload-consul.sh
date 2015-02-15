@@ -1,8 +1,6 @@
 #!/bin/bash
 set -o errexit
 
-cd /config
-
 CURCOMMIT="$(git rev-parse HEAD)"
 NEWCOMMIT="$(curl -sS http://localhost:8500/v1/kv/consul/commitish?raw)"
 
@@ -28,6 +26,6 @@ else
     # Upgrade consul config
     git fetch
     git checkout "$NEWCOMMIT"
-    /config/prep-consul.sh
+    ./prep-consul.sh
     consul reload
 fi
