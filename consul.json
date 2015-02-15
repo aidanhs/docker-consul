@@ -14,6 +14,11 @@
             "handler": "./consul-reload"
         },
         {
+            "type": "event",
+            "name": "ensure-registrator",
+            "handler": "./consul-ensure-registrator"
+        },
+        {
             "type": "keyprefix",
             "prefix": "HOSTNAME/",
             "handler": "./consul-host-update"

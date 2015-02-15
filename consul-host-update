@@ -38,6 +38,7 @@ def handlehostcfg(hostcfg):
     Given host config, applies any necessary changes to the host
     """
     if hostcfg.get('shutdown') == 'true':
-        subprocess.check_call(['consul', 'leave'])
+        subprocess.check_call(['./op/shutdown'])
+        return
 
 handlehostcfg(gethostcfg())
