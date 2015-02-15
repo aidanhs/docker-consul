@@ -11,7 +11,7 @@ RUN curl -L https://dl.bintray.com/mitchellh/consul/0.4.1_linux_amd64.zip > /tmp
 RUN curl -L https://dl.bintray.com/mitchellh/consul/0.4.1_web_ui.zip > /tmp/webui.zip && \
     mkdir /ui && cd /ui && unzip /tmp/webui.zip && rm /tmp/webui.zip
 
-RUN curl -L https://get.docker.io/builds/Linux/x86_64/docker-1.2.0 > /usr/bin/docker && \
+RUN curl -L https://get.docker.io/builds/Linux/x86_64/docker-1.5.0 > /usr/bin/docker && \
     chmod +x /usr/bin/docker
 
 WORKDIR /config
