@@ -2,7 +2,7 @@
 
 . ./common.env
 
-readonly IMAGE="docker-consul"
+readonly IMAGE="${IMAGE:-docker-consul}"
 readonly EXPECT="${EXPECT:-3}"
 
 cmd-run() {
