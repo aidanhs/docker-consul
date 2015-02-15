@@ -23,6 +23,10 @@ cmd-run() {
 		server_flag="-server"
 	fi
 
+	if [[ -z "$VOL" ]]; then
+		vol_flag="-v $VOL:/data"
+	fi
+
 	cat <<EOF
 eval docker run --name consul -h \$HOSTNAME \
 	-p 0.0.0.0:8300:8300 \
@@ -33,8 +37,9 @@ eval docker run --name consul -h \$HOSTNAME \
 	-p 0.0.0.0:8400:8400 \
 	-p 0.0.0.0:8500:8500 \
 	-p $BRIDGE_IP:53:53/udp \
+        --name consul \
         -v /var/run/docker.sock:/var/run/docker.sock \
-	$args \
+	$args $vol_flag \
 	$IMAGE $server_flag -advertise $external_ip $run_mode
 EOF
 }

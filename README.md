@@ -1,3 +1,24 @@
+# Micromanagement
+
+For the first server:
+
+    EXTIP="$(ip ro | awk '/^default/{print $3}')"
+    $(docker run --rm -e VOL=/opt/consul/data -e EXPECT=1 docker-consul cmd:run $EXTIP -d) -ui-dir /ui
+    echo $EXTIP
+
+Note down the EXTIP echoed above.
+
+For subsequent servers, using the EXTIP from above:
+
+    EXTIP2="$(ip ro | awk '/^default/{print $3}')"
+    $(docker run --rm -e VOL=/opt/consul/data docker-consul cmd:run $EXTIP2::$EXTIP -d) -ui-dir /ui
+
+For clients, using any EXTIP of the servers:
+
+    EXTIPC="$(ip ro | awk '/^default/{print $3}')"
+    $(docker run --rm -e VOL=/opt/consul/data docker-consul cmd:run $EXTIPC::$EXTIP -d)
+
+
 # Consul Agent in Docker
 
 This project is a Docker container for [Consul](http://www.consul.io/). It's a slightly opinionated, pre-configured Consul Agent made specifically to work in the Docker ecosystem.
