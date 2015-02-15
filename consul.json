@@ -11,12 +11,12 @@
         {
             "type": "event",
             "name": "trigger-reload",
-            "handler": "./reload-consul.sh"
+            "handler": "./consul-reload"
         },
         {
             "type": "keyprefix",
             "prefix": "HOSTNAME/",
-            "handler": "./host-update-consul.py"
+            "handler": "./consul-host-update"
         }
     ]
 }
