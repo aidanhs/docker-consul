@@ -28,5 +28,6 @@ else
     # Upgrade consul config
     git fetch
     git checkout "$NEWCOMMIT"
+    /config/prep-consul.sh
     consul reload
 fi

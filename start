@@ -40,8 +40,13 @@ EOF
 main() {
 	set -eo pipefail
 	case "$1" in
-	cmd:run)            shift; cmd-run $@;;
-	*)                  exec /bin/consul agent -config-dir=/config $@;;
+	cmd:run) {
+            shift; cmd-run $@
+        };;
+	*) {
+            /config/prep-consul.sh
+            exec /bin/consul agent -config-dir=/config $@
+        };;
 	esac
 }
 
