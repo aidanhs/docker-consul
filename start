@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./common.env
+export BRIDGE_IP="$(ip ro | awk '/^default/{print $3}')"
 
 readonly IMAGE="${IMAGE:-docker-consul}"
 readonly EXPECT="${EXPECT:-1}"
