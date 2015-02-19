@@ -6,13 +6,31 @@ export BRIDGE_IP="$(ip ro | awk '/^default/{print $3}')"
 readonly IMAGE="${IMAGE:-docker-consul}"
 readonly EXPECT="${EXPECT:-1}"
 
-cmd-run() {
+get-extip() {
+	local tmp="$(mktemp)"
+	docker run --rm --net=host ubuntu:14.04.1 ip ro > $tmp
+	local dev="$(cat $tmp | awk '/^default/{print $4 " " $5}')" # "dev em1"
+	local dev_line="$(cat $TMP | grep -v '^default' | grep $dev)"
+	local dev_ip="$(echo $dev_line | sed 's/^.* src \([0-9.]*\).*$/\1/')"
+	echo $dev_ip
+}
+
+cmd-genrun() {
 	local ip_def="$1"; shift
 	local args="$@"
 
 	declare external_ip join_ip run_mode client_flag server_flag
 
+	ip_def="$(echo $ip_def | sed 's/^:://')"
 	IFS=':' read external_ip join_ip client_flag <<< "${ip_def//::/:}"
+
+	if [[ -z "$external_ip" ]]; then
+		external_ip="$(get-extip)"
+		if [[ -z "$external_ip" ]]; then
+			echo "echo 'Could not identify external IP, binding to localhost' #"
+			exit 1
+		fi
+	fi
 
 	if [[ -z "$join_ip" ]]; then
 		run_mode="-bootstrap-expect $EXPECT"
@@ -49,7 +67,7 @@ main() {
 	set -eo pipefail
 	case "$1" in
 	cmd:run) {
-		shift; cmd-run $@
+		shift; cmd-genrun $@
 	};;
 	*) {
 		./prep-consul.sh
