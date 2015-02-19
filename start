@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 export BRIDGE_IP="$(ip ro | awk '/^default/{print $3}')"
 

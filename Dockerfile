@@ -1,4 +1,4 @@
-FROM       ubuntu:14.04
+FROM       ubuntu:14.04.1
 MAINTAINER Aidan Hobson Sayers <aidanhs@cantab.net>
 
 RUN apt-get update && \
