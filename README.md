@@ -3,7 +3,7 @@
 For the first server:
 
     EXTIP="$(ip ro | awk '/^default/{print $3}')"
-    $(docker run --rm -e VOL=/opt/consul/data -e EXPECT=1 docker-consul cmd:run $EXTIP -d) -ui-dir /ui
+    $(docker run --rm -e VOL=/opt/consul/data -e EXPECT=1 docker-consul cmd:run $EXTIP -d)
     echo $EXTIP
 
 Note down the EXTIP echoed above.
@@ -11,7 +11,7 @@ Note down the EXTIP echoed above.
 For subsequent servers, using the EXTIP from above:
 
     EXTIP2="$(ip ro | awk '/^default/{print $3}')"
-    $(docker run --rm -e VOL=/opt/consul/data docker-consul cmd:run $EXTIP2::$EXTIP -d) -ui-dir /ui
+    $(docker run --rm -e VOL=/opt/consul/data docker-consul cmd:run $EXTIP2::$EXTIP -d)
 
 For clients, using any EXTIP of the servers:
 

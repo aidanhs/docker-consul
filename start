@@ -20,7 +20,7 @@ cmd-run() {
 	fi
 
 	if [[ -z "$client_flag" ]]; then
-		server_flag="-server"
+		server_flag="-server -ui-dir /ui"
 	fi
 
 	if [[ -z "$VOL" ]]; then

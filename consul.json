@@ -1,7 +1,6 @@
 {
     "data_dir": "/data",
     "log_level": "debug",
-    "ui_dir": "/ui",
     "client_addr": "0.0.0.0",
     "ports": {
             "//": "if enabled, also need 'recursor' config to point to your dns",
