@@ -3,7 +3,7 @@
 . ./common.env
 
 readonly IMAGE="${IMAGE:-docker-consul}"
-readonly EXPECT="${EXPECT:-3}"
+readonly EXPECT="${EXPECT:-1}"
 
 cmd-run() {
 	local ip_def="$1"; shift
