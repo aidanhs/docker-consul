@@ -2,7 +2,7 @@ FROM       ubuntu:14.04.1
 MAINTAINER Aidan Hobson Sayers <aidanhs@cantab.net>
 
 RUN apt-get update && \
-    apt-get install -y curl bash git unzip && \
+    apt-get install -y curl bash git unzip dnsutils && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN curl -L https://dl.bintray.com/mitchellh/consul/0.4.1_linux_amd64.zip > /tmp/consul.zip && \

@@ -1,22 +1,16 @@
 # Micromanagement
 
-For the first server:
+For the first server, H1:
 
-    EXTIP="$(ip ro | awk '/^default/{print $3}')"
-    $(docker run --rm -e VOL=/opt/consul/data docker-consul cmd:run $EXTIP -d)
-    echo $EXTIP
+    $(docker run --rm --net=host -e VOL=/opt/consul/data docker-consul cmd:run ! -d)
 
-Note down the EXTIP echoed above.
+For subsequent servers, using the hostname from above:
 
-For subsequent servers, using the EXTIP from above:
-
-    EXTIP2="$(ip ro | awk '/^default/{print $3}')"
-    $(docker run --rm -e VOL=/opt/consul/data docker-consul cmd:run $EXTIP2::$EXTIP -d)
+    $(docker run --rm --net=host -e VOL=/opt/consul/data docker-consul cmd:run !::H1 -d)
 
 For clients, using any EXTIP of the servers:
 
-    EXTIPC="$(ip ro | awk '/^default/{print $3}')"
-    $(docker run --rm docker-consul cmd:run $EXTIPC::$EXTIP::client -d)
+    $(docker run --rm docker-consul cmd:run !::H1::client -d)
 
 
 # Consul Agent in Docker

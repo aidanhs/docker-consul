@@ -1,18 +1,20 @@
 #!/bin/bash
 set -e
 
-export BRIDGE_IP="$(ip ro | awk '/^default/{print $3}')"
+export BRIDGE_IP="$(ip ro | grep 'dev docker' | sed 's/^.* src \([0-9.]*\).*$/\1/')"
 
 readonly IMAGE="${IMAGE:-docker-consul}"
 readonly EXPECT="${EXPECT:-1}"
 
 get-extip() {
-	local tmp="$(mktemp)"
-	docker run --rm --net=host ubuntu:14.04.1 ip ro > $tmp
-	local dev="$(cat $tmp | awk '/^default/{print $4 " " $5}')" # "dev em1"
-	local dev_line="$(cat $TMP | grep -v '^default' | grep $dev)"
-	local dev_ip="$(echo $dev_line | sed 's/^.* src \([0-9.]*\).*$/\1/')"
-	echo $dev_ip
+	# Try dig for local dns, which usually includes routers
+	local ips="$(dig +short +search $(hostname))"
+	if [[ "$ips" == $(echo "$ips" | sed 's/ //') ]]; then
+		echo "$ips"
+		return 0
+	fi
+	# Multiple ips, give up
+	echo ""
 }
 
 cmd-genrun() {
@@ -21,13 +23,13 @@ cmd-genrun() {
 
 	declare external_ip join_ip run_mode client_flag server_flag
 
-	ip_def="$(echo $ip_def | sed 's/^:://')"
+	ip_def="$(echo $ip_def | sed 's/^!//')"
 	IFS=':' read external_ip join_ip client_flag <<< "${ip_def//::/:}"
 
 	if [[ -z "$external_ip" ]]; then
 		external_ip="$(get-extip)"
 		if [[ -z "$external_ip" ]]; then
-			echo "echo 'Could not identify external IP, binding to localhost' #"
+			echo "Could not auto-identify external IP" >&2
 			exit 1
 		fi
 	fi
