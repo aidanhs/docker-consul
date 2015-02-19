@@ -16,7 +16,7 @@ For subsequent servers, using the EXTIP from above:
 For clients, using any EXTIP of the servers:
 
     EXTIPC="$(ip ro | awk '/^default/{print $3}')"
-    $(docker run --rm -e VOL=/opt/consul/data docker-consul cmd:run $EXTIPC::$EXTIP -d)
+    $(docker run --rm docker-consul cmd:run $EXTIPC::$EXTIP -d)
 
 
 # Consul Agent in Docker
