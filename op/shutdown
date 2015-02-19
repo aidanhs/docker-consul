@@ -1,0 +1,5 @@
+#!/bin/bash
+set -o errexit
+
+(docker stop registrator && docker rm registrator) || true
+consul leave

@@ -1,0 +1,13 @@
+#!/bin/bash
+set -o errexit
+
+docker pull progrium/registrator
+(docker stop registrator && docker rm registrator) || true
+# TODO: add --rm https://github.com/docker/docker/issues/10545
+docker run \
+    -v /var/run/docker.sock:/tmp/docker.sock \
+    -d \
+    -h $HOSTNAME \
+    --name registrator \
+    progrium/registrator \
+    consul://$BRIDGE_IP:8500
